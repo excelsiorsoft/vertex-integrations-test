@@ -41,6 +41,7 @@ public class LogicTest {
 		tradeableCurrencies.add("MXN");
 		tradeableCurrencies.add("BRL");
 		tradeableCurrencies.add("CAD");
+		tradeableCurrencies.add("GBP");
 		System.out.println(tradeableCurrencies);
 		
 		currencies.setCurrencies(tradeableCurrencies);
@@ -134,14 +135,23 @@ public class LogicTest {
 		
 	}
 	
-	/*@Test
+	@Test
 	public void testEURJPYPair() {
 
 		Logic logic = new Logic();
 		//logic.setCache(ratesCache);
 		assertEquals("128.7159", logic.rate(new Tuple("EURJPY").valueOf(),ratesCache, currencies));
 		
-	}*/
+	}
+	
+	@Test
+	public void testEURCADPair() {
+
+		Logic logic = new Logic();
+		//logic.setCache(ratesCache);
+		assertEquals("1.3465", logic.rate(new Tuple("EURCAD").valueOf(),ratesCache, currencies));
+		
+	}	
 	
 	
 

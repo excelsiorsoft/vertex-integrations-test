@@ -3,6 +3,7 @@
  */
 package com.currency;
 
+import static com.currency.Currencies.buildGraph;
 import static com.google.common.collect.ImmutableSet.of;
 import static com.google.common.collect.Sets.cartesianProduct;
 
@@ -12,6 +13,9 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+
+import com.currency.Currencies.Graph;
+import com.currency.Currencies.Pathfinder;
 
 /**
  * @author sleyzerzon
@@ -25,7 +29,7 @@ public class Logic {
 	
 	public final static class Tuple{
 		
-		private static final int SPLIT_POINT = 3;
+		public static final int SPLIT_POINT = 3;
 		
 		public String first;
 		public String second;
@@ -103,15 +107,24 @@ public class Logic {
 			}
 			result = Collections.max(rates);
 			return formatter.format(result);
-		} /*else {
+		}else {
+			Graph<String> graph = buildGraph(pairsCache);
+			Pathfinder<String> pathfinder = new Pathfinder<String>(graph);
+			String from = originalPair.first;
+			String to = originalPair.second;
+			List<List<String>> paths = pathfinder.getAllPaths(from, to);
+			List<Double> xrates = findByChaining(paths, graph);
+			
+			System.out.println("xrates: "+xrates);
+		} 
+		
+		
+		/*else {
 
 			result = 1.0/(pairsCache.get(originalPair.second+originalPair.first));
 			return formatter.format(result);
 		}*/
 		return formatter.format(result);
-		
-		
-		
 		
 	}
 
@@ -162,14 +175,41 @@ public class Logic {
 	}
 
 
-	/*public Map<String, Double> getCache() {
-		return pairsCache;
+
+	private List<Double> findByChaining(List<List<String>> paths, Graph<String> currenciesGraph){
+		
+		List<Double> xrates = new ArrayList<>();
+			
+		for(Iterator<List<String>> pathsIt = paths.iterator(); pathsIt.hasNext();) {
+				
+				
+				int counter = 0; 
+				double coefficient = 1;
+				List<String> curLst = pathsIt.next();
+				for(Iterator<String > it = curLst.iterator(); it.hasNext();) {
+					String key = it.next();
+					System.out.println("key: " + key);
+					int nxt = ++counter;
+					if(nxt < curLst.size()) {
+						String nextKey = curLst.get(nxt);
+						System.out.println("next key: "+ nextKey);
+						
+						System.out.println("into: " + currenciesGraph.valueOf().get(key));
+						
+						double intoXrate = currenciesGraph.valueOf().get(key).get(nextKey);
+						System.out.println(key+nextKey+" rate: " + currenciesGraph.valueOf().get(key).get(nextKey));
+						coefficient *= intoXrate;
+						System.out.println("final rate: "+coefficient);
+						
+					}
+					
+				}
+				
+				xrates.add(coefficient);
+				System.out.println("rates: "+xrates);
+				
+		}
+		return xrates;
 	}
-
-
-	public void setCache(Map<String, Double> cache) {
-		this.pairsCache = cache;
-	}*/
-	
 
 }
