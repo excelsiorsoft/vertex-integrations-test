@@ -85,7 +85,7 @@ public class CurrenciesTest {
 	}
 	
 	@Test
-	public void buildCurrenciesTest() {
+	public void buildCurrenciesViaBuilderTest() {
 		
 		Map<String, Double >ratesCache = new HashMap<>();
 		 ratesCache.put("EURUSD", 1.0621);
@@ -102,6 +102,52 @@ public class CurrenciesTest {
 		 Currencies.buildGraph(ratesCache);
 		 System.out.println("ratesCache: "+currencies.getCurrencies());
 		 System.out.println("curGraph: "+currencies.getCurrenciesGraph());
+		 
+		 Pathfinder<String> pathfinder = new Pathfinder<String>(currencies.getCurrenciesGraph());
+			
+			
+			List<List<String>> eurCadPath = pathfinder.getAllPaths("EUR", "CAD");
+			System.out.println("EURCAD full path: " + eurCadPath);
+	}
+	
+	@Test
+	public void buildCurrenciesTest() {
+		
+		Graph<String> currenciesGraph = new Graph<String>();
+		currenciesGraph.addNode("EUR");
+		currenciesGraph.addNode("USD");
+		currenciesGraph.addNode("JPY");
+		currenciesGraph.addNode("CAD");
+		currenciesGraph.addNode("GBP");
+		currenciesGraph.addNode("MXN");
+		currenciesGraph.addNode("CHF");
+		currenciesGraph.addNode("NOK");
+		currenciesGraph.addNode("SEK");
+		currenciesGraph.addNode("BRL");
+		
+		
+		currenciesGraph.addEdge("EUR", "USD", 1.0621);
+		currenciesGraph.addEdge("USD", "JPY", 121.19);
+		currenciesGraph.addEdge("JPY", "CAD", 0.010461);
+		
+		currenciesGraph.addEdge("GBP", "USD", 1.4928);
+		currenciesGraph.addEdge("USD", "MXN", 15.376);
+		
+		currenciesGraph.addEdge("BRL", "MXN", 4.9344);
+		
+		currenciesGraph.addEdge("NOK", "CHF", 1.3701);
+		currenciesGraph.addEdge("NOK", "SEK", 1.0281);
+		
+		currenciesGraph.addEdge("SEK", "CHF", 1.3373);
+		
+		System.out.println("currenciesGraph:" +currenciesGraph);
+
+		 
+		 Pathfinder<String> pathfinder = new Pathfinder<String>(currenciesGraph);
+			
+			
+			List<List<String>> eurCadPath = pathfinder.getAllPaths("EUR", "CAD");
+			System.out.println("EURCAD full path: " + eurCadPath);
 	}
 
 }
