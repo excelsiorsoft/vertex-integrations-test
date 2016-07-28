@@ -35,12 +35,17 @@ public final class Currencies {
 	
 	public static Graph<String> buildGraph(Map<String, Double> ratesCache){
 		
+		currenciesGraph = new Graph<String>();
+		
 		for(String key:ratesCache.keySet()) {
-			currencies.add(key.substring(0,SPLIT_POINT));
-			currencies.add(key.substring(SPLIT_POINT, key.length()));
+			String left = key.substring(0,SPLIT_POINT);
+			String right = key.substring(SPLIT_POINT, key.length());
+			
+			currencies.add(left);
+			currencies.add(right);
 		}
 		
-		currenciesGraph = new Graph<String>();
+		//currenciesGraph = new Graph<String>();
 		
 		for(String currency: currencies) {
 			currenciesGraph.addNode(currency);
@@ -182,11 +187,11 @@ public final class Currencies {
 	            return paths;
 	        }
 
-	        // ignores cycles.
+	       
 	        private void recursive (T current, T destination, List<List<T>> paths, LinkedHashSet<T> path) {
 	            path.add(current);
 
-	            if (current == destination) {
+	            if (current.equals(destination)) {
 	                paths.add(new ArrayList<T>(path));
 	                path.remove(current);
 	                return;
@@ -195,7 +200,7 @@ public final class Currencies {
 	            final Set<T> edges  = graph.edgesFrom(current).keySet();
 
 	            for (T t : edges) {
-	                if (!path.contains(t)) {
+	                if (!path.contains(t)) { // ignore cycles.
 	                    recursive (t, destination, paths, path);
 	                }
 	            }

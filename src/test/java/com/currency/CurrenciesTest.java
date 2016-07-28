@@ -1,10 +1,14 @@
 package com.currency;
 
+import static com.currency.Logic.Tuple.SPLIT_POINT;
+
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -98,12 +102,45 @@ public class CurrenciesTest {
 		 ratesCache.put("JPYCAD", 0.010461);
 		 ratesCache.put("NOKSEK", 1.0281);
 		 
-		 Currencies currencies = new Currencies();
-		 Currencies.buildGraph(ratesCache);
-		 System.out.println("ratesCache: "+currencies.getCurrencies());
-		 System.out.println("curGraph: "+currencies.getCurrenciesGraph());
+		 /*Currencies currencies = new Currencies();
+		 Currencies.buildGraph(ratesCache);*/
 		 
-		 Pathfinder<String> pathfinder = new Pathfinder<String>(currencies.getCurrenciesGraph());
+		 //=====
+		 Set<String> currencies = new HashSet<>();
+		 Graph<String> currenciesGraph = new Graph<String>();
+			
+			for(String key:ratesCache.keySet()) {
+				String left = key.substring(0,SPLIT_POINT);
+				String right = key.substring(SPLIT_POINT, key.length());
+				
+				currencies.add(left);
+				currencies.add(right);
+			}
+			
+			//currenciesGraph = new Graph<String>();
+			
+			for(String currency: currencies) {
+				currenciesGraph.addNode(currency);
+			}
+			
+			for(Map.Entry<String, Double> entry: ratesCache.entrySet()) {
+				String key = entry.getKey();
+				String from = key.substring(0,SPLIT_POINT);
+				String to = key.substring(SPLIT_POINT, key.length());
+				Double rate = entry.getValue();
+				currenciesGraph.addEdge(from, to, rate);
+			}
+		 
+			
+
+			 System.out.println("curGraph: "+currenciesGraph);
+		 //======
+		 
+		 /*System.out.println("ratesCache: "+currencies.getCurrencies());
+		 System.out.println("curGraph: "+currencies.getCurrenciesGraph());*/
+		 
+		 /*Pathfinder<String> pathfinder = new Pathfinder<String>(currencies.getCurrenciesGraph());*/
+			 Pathfinder<String> pathfinder = new Pathfinder<String>(currenciesGraph);
 			
 			
 			List<List<String>> eurCadPath = pathfinder.getAllPaths("EUR", "CAD");
