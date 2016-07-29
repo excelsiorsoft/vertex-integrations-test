@@ -22,20 +22,18 @@ import static com.currency.Logic.Tuple.SPLIT_POINT;
  */
 public final class Currencies {
 
-	private static Set<String> currencies = new HashSet<>();
+	private /*static*/ Set<String> currencies = new HashSet<>();
 	private static Graph<String> currenciesGraph;
 
-	public static Set<String> getCurrencies() {
+	public /*static*/ Set<String> getCurrencies() {
 		return currencies;
 	}
 
 	public void setCurrencies(Set<String> currencies) {
-		Currencies.currencies = currencies;
+		this.currencies = currencies;
 	}
 	
-	public static Graph<String> buildGraph(Map<String, Double> ratesCache){
-		
-		currenciesGraph = new Graph<String>();
+	public /*static*/ Set<String> buildCurrencies(Map<String, Double> ratesCache){
 		
 		for(String key:ratesCache.keySet()) {
 			String left = key.substring(0,SPLIT_POINT);
@@ -45,6 +43,21 @@ public final class Currencies {
 			currencies.add(right);
 		}
 		
+		return currencies;
+	}
+	
+	public /*static*/ Graph<String> buildGraph(Map<String, Double> ratesCache){
+		
+		/*for(String key:ratesCache.keySet()) {
+			String left = key.substring(0,SPLIT_POINT);
+			String right = key.substring(SPLIT_POINT, key.length());
+			
+			currencies.add(left);
+			currencies.add(right);
+		}*/
+		buildCurrencies(ratesCache);
+		
+		currenciesGraph = new Graph<String>();
 
 		for(String currency: currencies) {
 			currenciesGraph.addNode(currency);

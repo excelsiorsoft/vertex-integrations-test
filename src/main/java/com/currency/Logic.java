@@ -3,7 +3,7 @@
  */
 package com.currency;
 
-import static com.currency.Currencies.buildGraph;
+//import static com.currency.Currencies.buildGraph;
 import static com.google.common.collect.ImmutableSet.of;
 import static com.google.common.collect.Sets.cartesianProduct;
 
@@ -68,7 +68,7 @@ public class Logic {
 		}
 	} 
 	
-	public String rate(String pair, Map<String, Double> pairsCache, Currencies currencies) {
+	public String rate(String pair, Map<String, Double> pairsCache/*, Currencies currencies*/) {
 		
 		validate(pair);
 
@@ -98,7 +98,7 @@ public class Logic {
 		}
 
 		
-		List<RateTuple> derived = findByDerivation(originalPair, pairsCache, currencies);
+		List<RateTuple> derived = findByDerivation(originalPair, pairsCache/*, currencies*/);
 		
 		if (derived.size()>0){
 			
@@ -108,7 +108,8 @@ public class Logic {
 			result = Collections.max(rates);
 			//return formatter.format(result);
 		} else /*if(rates.size()<0 && derived.size()<0)*/{
-			Graph<String> graph = buildGraph(pairsCache);
+			Currencies currencies = new Currencies();
+			Graph<String> graph = currencies.buildGraph(pairsCache);
 			Pathfinder<String> pathfinder = new Pathfinder<String>(graph);
 			String from = originalPair.first;
 			String to = originalPair.second;
@@ -145,9 +146,11 @@ public class Logic {
 	
 	
 	@SuppressWarnings("unchecked")
-	private List<RateTuple> findByDerivation(Tuple originalPair, Map<String, Double> ratesCache, Currencies currencies) {
+	private List<RateTuple> findByDerivation(Tuple originalPair, Map<String, Double> ratesCache/*, Currencies currencies*/) {
 		
 		List<RateTuple> result = new ArrayList<>();
+		
+		Currencies currencies = new Currencies();currencies.buildCurrencies(ratesCache);
 		
 		Iterator<List<String>> firstIterator = cartesianProduct(of(originalPair.first), currencies.getCurrencies()).iterator();
 		Iterator<List<String>> secondIterator =  cartesianProduct(of(originalPair.second), currencies.getCurrencies()).iterator();

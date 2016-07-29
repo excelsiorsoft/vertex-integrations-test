@@ -64,7 +64,7 @@ public class LogicTest {
 
 		Logic logic = new Logic();
 		//logic.setCache(ratesCache);
-		assertEquals(ratesCache.get("EURUSD").toString(), logic.rate(new Tuple("EURUSD").valueOf(),ratesCache, currencies));
+		assertEquals(ratesCache.get("EURUSD").toString(), logic.rate(new Tuple("EURUSD").valueOf(),ratesCache/*, currencies*/));
 		
 	}
 	
@@ -75,9 +75,9 @@ public class LogicTest {
 		
 		Tuple pair = new Tuple("SEKNOK");
 		
-		logic.rate(pair.valueOf(), ratesCache, currencies);
+		logic.rate(pair.valueOf(), ratesCache/*, currencies*/);
 	
-		assertEquals("0.9761", logic.rate(pair.valueOf(), ratesCache, currencies));
+		assertEquals("0.9761", logic.rate(pair.valueOf(), ratesCache/*, currencies*/));
 	}	
 	
 	@Test
@@ -85,9 +85,9 @@ public class LogicTest {
 
 		Logic logic = new Logic();
 		
-		logic.rate("BRLUSD", ratesCache, currencies);
+		//logic.rate("BRLUSD", ratesCache/*, currencies*/);
 	
-		assertEquals("0.3209", logic.rate("BRLUSD", ratesCache, currencies));
+		assertEquals("0.3209", logic.rate("BRLUSD", ratesCache/*, currencies*/));
 	}	
 	
 	/*@Test
@@ -117,9 +117,9 @@ public class LogicTest {
 
 		Logic logic = new Logic();
 		
-		logic.rate("JPYUSD", ratesCache, currencies);
+		//logic.rate("JPYUSD", ratesCache, currencies);
 	
-		assertEquals("0.0083", logic.rate("JPYUSD", ratesCache, currencies));
+		assertEquals("0.0083", logic.rate("JPYUSD", ratesCache/*, currencies*/));
 		
 	}
 	
@@ -127,7 +127,7 @@ public class LogicTest {
 	public void testNOKSEKPair() {
 
 		Logic logic = new Logic();
-		assertEquals("1.0281", logic.rate("NOKSEK",ratesCache, currencies));
+		assertEquals("1.0281", logic.rate("NOKSEK",ratesCache/*, currencies*/));
 		
 	}
 	
@@ -135,7 +135,7 @@ public class LogicTest {
 	public void testEURJPYPair() {
 
 		Logic logic = new Logic();
-		assertEquals("128.7159", logic.rate("EURJPY",ratesCache, currencies));
+		assertEquals("128.7159", logic.rate("EURJPY",ratesCache/*, currencies*/));
 		
 	}
 	
@@ -143,7 +143,7 @@ public class LogicTest {
 	public void testEURCADPair() {
 
 		Logic logic = new Logic();
-		assertEquals("1.3465", logic.rate("EURCAD",ratesCache, currencies));
+		assertEquals("1.3465", logic.rate("EURCAD",ratesCache/*, currencies*/));
 		
 	}	
 	
@@ -151,7 +151,7 @@ public class LogicTest {
 	public void testNotAvailablePair() {
 
 		Logic logic = new Logic();
-		assertEquals("Not available", logic.rate("USDAUD",ratesCache, currencies));
+		assertEquals("Not available", logic.rate("USDAUD",ratesCache/*, currencies*/));
 		
 	}	
 	
