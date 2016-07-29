@@ -1,24 +1,16 @@
 package com.currency;
 
-import static com.google.common.collect.ImmutableSet.of;
-import static com.google.common.collect.Sets.cartesianProduct;
 import static junit.framework.Assert.assertEquals;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-
-import junit.framework.Assert;
 
 import org.junit.BeforeClass;
 import org.junit.Test;
 
 import com.currency.Logic.Tuple;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Sets;
 
 public class LogicTest {
 
@@ -63,8 +55,7 @@ public class LogicTest {
 	public void testExistingPair() {
 
 		Logic logic = new Logic();
-		//logic.setCache(ratesCache);
-		assertEquals(ratesCache.get("EURUSD").toString(), logic.rate(new Tuple("EURUSD").valueOf(),ratesCache/*, currencies*/));
+		assertEquals(ratesCache.get("EURUSD").toString(), logic.rate(new Tuple("EURUSD").valueOf(),ratesCache));
 		
 	}
 	
@@ -75,51 +66,28 @@ public class LogicTest {
 		
 		Tuple pair = new Tuple("SEKNOK");
 		
-		logic.rate(pair.valueOf(), ratesCache/*, currencies*/);
+		logic.rate(pair.valueOf(), ratesCache);
 	
-		assertEquals("0.9761", logic.rate(pair.valueOf(), ratesCache/*, currencies*/));
+		assertEquals("0.9761", logic.rate(pair.valueOf(), ratesCache));
 	}	
 	
 	@Test
 	public void testBRLUSDPair() {
 
 		Logic logic = new Logic();
-		
-		//logic.rate("BRLUSD", ratesCache/*, currencies*/);
 	
-		assertEquals("0.3209", logic.rate("BRLUSD", ratesCache/*, currencies*/));
+		assertEquals("0.3209", logic.rate("BRLUSD", ratesCache));
 	}	
 	
-	/*@Test
-	public void testJPYUSDPair() {
-
-		Logic logic = new Logic();
-		//logic.setCache(ratesCache);
-		logic.rate(new Tuple("JPYUSD").valueOf(), ratesCache, currencies);
-		
-
-		Set<List<String>> firstCartesian = Sets.cartesianProduct(ImmutableSet.of("JPY"), currencies.getCurrencies());
-		Set<List<String>> secondCartesian = Sets.cartesianProduct(ImmutableSet.of("USD"), currencies.getCurrencies());
-		
-		Iterator firstIterator = firstCartesian.iterator();
-		
-		Iterator secondIterator = secondCartesian.iterator();
-		
-		
-		System.out.println(firstCartesian);
-		System.out.println(secondCartesian);
-		
-	}	*/
+	
 	
 	
 	@Test
 	public void testJPYUSDPair() {
 
 		Logic logic = new Logic();
-		
-		//logic.rate("JPYUSD", ratesCache, currencies);
-	
-		assertEquals("0.0083", logic.rate("JPYUSD", ratesCache/*, currencies*/));
+
+		assertEquals("0.0083", logic.rate("JPYUSD", ratesCache));
 		
 	}
 	
@@ -127,7 +95,7 @@ public class LogicTest {
 	public void testNOKSEKPair() {
 
 		Logic logic = new Logic();
-		assertEquals("1.0281", logic.rate("NOKSEK",ratesCache/*, currencies*/));
+		assertEquals("1.0281", logic.rate("NOKSEK",ratesCache));
 		
 	}
 	
@@ -135,7 +103,7 @@ public class LogicTest {
 	public void testEURJPYPair() {
 
 		Logic logic = new Logic();
-		assertEquals("128.7159", logic.rate("EURJPY",ratesCache/*, currencies*/));
+		assertEquals("128.7159", logic.rate("EURJPY",ratesCache));
 		
 	}
 	
@@ -143,7 +111,7 @@ public class LogicTest {
 	public void testEURCADPair() {
 
 		Logic logic = new Logic();
-		assertEquals("1.3465", logic.rate("EURCAD",ratesCache/*, currencies*/));
+		assertEquals("1.3465", logic.rate("EURCAD",ratesCache));
 		
 	}	
 	
@@ -151,7 +119,7 @@ public class LogicTest {
 	public void testNotAvailablePair() {
 
 		Logic logic = new Logic();
-		assertEquals("Not available", logic.rate("USDAUD",ratesCache/*, currencies*/));
+		assertEquals("Not available", logic.rate("USDAUD",ratesCache));
 		
 	}	
 	

@@ -3,7 +3,6 @@
  */
 package com.currency;
 
-//import static com.currency.Currencies.buildGraph;
 import static com.google.common.collect.ImmutableSet.of;
 import static com.google.common.collect.Sets.cartesianProduct;
 
@@ -25,7 +24,6 @@ public class Logic {
 	
 	
 	private static final int PAIR_LENGTH = 6;
-	//private Map<String, Double> pairsCache = new HashMap<>();
 	
 	public final static class Tuple{
 		
@@ -68,7 +66,7 @@ public class Logic {
 		}
 	} 
 	
-	public String rate(String pair, Map<String, Double> pairsCache/*, Currencies currencies*/) {
+	public String rate(String pair, Map<String, Double> pairsCache) {
 		
 		validate(pair);
 
@@ -98,7 +96,7 @@ public class Logic {
 		}
 
 		
-		List<RateTuple> derived = findByDerivation(originalPair, pairsCache/*, currencies*/);
+		List<RateTuple> derived = findByDerivation(originalPair, pairsCache);
 		
 		if (derived.size()>0){
 			
@@ -107,7 +105,7 @@ public class Logic {
 			}
 			result = Collections.max(rates);
 			//return formatter.format(result);
-		} else /*if(rates.size()<0 && derived.size()<0)*/{
+		} else {
 			Currencies currencies = new Currencies();
 			Graph<String> graph = currencies.buildGraph(pairsCache);
 			Pathfinder<String> pathfinder = new Pathfinder<String>(graph);
@@ -124,12 +122,6 @@ public class Logic {
 			
 		} 
 		
-		
-		/*else {
-
-			result = 1.0/(pairsCache.get(originalPair.second+originalPair.first));
-			return formatter.format(result);
-		}*/
 		if (rates.size()<=0) return "Not available";
 		return formatter.format(Collections.max(rates));
 		
@@ -172,10 +164,6 @@ public class Logic {
 						result.add(new RateTuple(ratesCache.get(firstDerivValue), ratesCache.get(secondDerivValue)));
 					}
 					
-					/*if(ratesCache.get(firstDerivValue) != null && ratesCache.get(secondDerivValue) == null) {
-						ratesCache.put(secondDerivValue, Double.valueOf(rate(secondDerivValue, ratesCache, currencies)));
-					}*/
-					
 					System.out.println("both derivatives are present: " +(ratesCache.get(firstDerivValue) != null && ratesCache.get(secondDerivValue) != null)); 
 
 				}
@@ -197,16 +185,20 @@ public class Logic {
 				List<String> curLst = pathsIt.next();
 				for(Iterator<String > it = curLst.iterator(); it.hasNext();) {
 					String key = it.next();
+					
 					System.out.println("key: " + key);
+					
 					int nxt = ++counter;
 					if(nxt < curLst.size()) {
 						String nextKey = curLst.get(nxt);
-						System.out.println("next key: "+ nextKey);
 						
+						System.out.println("next key: "+ nextKey);
 						System.out.println("into: " + currenciesGraph.valueOf().get(key));
 						
 						double intoXrate = currenciesGraph.valueOf().get(key).get(nextKey);
+						
 						System.out.println(key+nextKey+" rate: " + currenciesGraph.valueOf().get(key).get(nextKey));
+						
 						coefficient *= intoXrate;
 						
 						
@@ -214,7 +206,9 @@ public class Logic {
 					
 				}
 				System.out.println("final rate: "+coefficient);
+				
 				xrates.add(coefficient);
+				
 				System.out.println("rates: "+xrates);
 				
 				
