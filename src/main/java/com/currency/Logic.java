@@ -106,17 +106,22 @@ public class Logic {
 				rates.add(rate.num/rate.denom);
 			}
 			result = Collections.max(rates);
-			return formatter.format(result);
-		}/*else {
+			//return formatter.format(result);
+		} else /*if(rates.size()<0 && derived.size()<0)*/{
 			Graph<String> graph = buildGraph(pairsCache);
 			Pathfinder<String> pathfinder = new Pathfinder<String>(graph);
 			String from = originalPair.first;
 			String to = originalPair.second;
 			List<List<String>> paths = pathfinder.getAllPaths(from, to);
-			List<Double> xrates = findByChaining(paths, graph);
+			if(paths.size()>0) {
+				List<Double> xrates = findByChaining(paths, graph);
+				
+				result = Collections.max(xrates);
+				rates.add(result);
+			}
+			//return formatter.format(result);
 			
-			System.out.println("xrates: "+xrates);
-		} */
+		} 
 		
 		
 		/*else {
@@ -124,7 +129,8 @@ public class Logic {
 			result = 1.0/(pairsCache.get(originalPair.second+originalPair.first));
 			return formatter.format(result);
 		}*/
-		return formatter.format(result);
+		if (rates.size()<=0) return "Not available";
+		return formatter.format(Collections.max(rates));
 		
 	}
 
@@ -199,14 +205,16 @@ public class Logic {
 						double intoXrate = currenciesGraph.valueOf().get(key).get(nextKey);
 						System.out.println(key+nextKey+" rate: " + currenciesGraph.valueOf().get(key).get(nextKey));
 						coefficient *= intoXrate;
-						System.out.println("final rate: "+coefficient);
+						
 						
 					}
 					
 				}
-				
+				System.out.println("final rate: "+coefficient);
 				xrates.add(coefficient);
 				System.out.println("rates: "+xrates);
+				
+				
 				
 		}
 		return xrates;
