@@ -118,11 +118,11 @@ public class LogicTest {
 	public void testJPYUSDPair() {
 
 		Logic logic = new Logic();
-		Tuple pair = new Tuple("JPYUSD");
+		//Tuple pair = new Tuple("JPYUSD");
 		
-		logic.rate(pair.valueOf(), ratesCache, currencies);
+		logic.rate("JPYUSD"/*pair.valueOf()*/, ratesCache, currencies);
 	
-		assertEquals("0.0083", logic.rate(pair.valueOf(), ratesCache, currencies));
+		assertEquals("0.0083", logic.rate("JPYUSD"/*pair.valueOf()*/, ratesCache, currencies));
 		
 	}
 	
@@ -131,7 +131,7 @@ public class LogicTest {
 
 		Logic logic = new Logic();
 		//logic.setCache(ratesCache);
-		assertEquals("1.0281", logic.rate(new Tuple("NOKSEK").valueOf(),ratesCache, currencies));
+		assertEquals("1.0281", logic.rate("NOKSEK",ratesCache, currencies));
 		
 	}
 	
@@ -140,7 +140,7 @@ public class LogicTest {
 
 		Logic logic = new Logic();
 		//logic.setCache(ratesCache);
-		assertEquals("128.7159", logic.rate(new Tuple("EURJPY").valueOf(),ratesCache, currencies));
+		assertEquals("128.7159", logic.rate("EURJPY",ratesCache, currencies));
 		
 	}
 	
@@ -149,7 +149,7 @@ public class LogicTest {
 
 		Logic logic = new Logic();
 		//logic.setCache(ratesCache);
-		assertEquals("1.3465", logic.rate(new Tuple("EURCAD").valueOf(),ratesCache, currencies));
+		assertEquals("1.3465", logic.rate("EURCAD",ratesCache, currencies));
 		
 	}	
 	

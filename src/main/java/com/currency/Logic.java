@@ -107,7 +107,7 @@ public class Logic {
 			}
 			result = Collections.max(rates);
 			return formatter.format(result);
-		}else {
+		}/*else {
 			Graph<String> graph = buildGraph(pairsCache);
 			Pathfinder<String> pathfinder = new Pathfinder<String>(graph);
 			String from = originalPair.first;
@@ -116,7 +116,7 @@ public class Logic {
 			List<Double> xrates = findByChaining(paths, graph);
 			
 			System.out.println("xrates: "+xrates);
-		} 
+		} */
 		
 		
 		/*else {

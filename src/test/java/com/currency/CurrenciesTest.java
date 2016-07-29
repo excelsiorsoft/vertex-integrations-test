@@ -102,8 +102,6 @@ public class CurrenciesTest {
 		 ratesCache.put("JPYCAD", 0.010461);
 		 ratesCache.put("NOKSEK", 1.0281);
 		 
-		 /*Currencies currencies = new Currencies();
-		 Currencies.buildGraph(ratesCache);*/
 		 
 		 //=====
 		 Set<String> currencies = new HashSet<>();
@@ -117,7 +115,6 @@ public class CurrenciesTest {
 				currencies.add(right);
 			}
 			
-			//currenciesGraph = new Graph<String>();
 			
 			for(String currency: currencies) {
 				currenciesGraph.addNode(currency);
@@ -135,11 +132,7 @@ public class CurrenciesTest {
 
 			 System.out.println("curGraph: "+currenciesGraph);
 		 //======
-		 
-		 /*System.out.println("ratesCache: "+currencies.getCurrencies());
-		 System.out.println("curGraph: "+currencies.getCurrenciesGraph());*/
-		 
-		 /*Pathfinder<String> pathfinder = new Pathfinder<String>(currencies.getCurrenciesGraph());*/
+
 			 Pathfinder<String> pathfinder = new Pathfinder<String>(currenciesGraph);
 			
 			

@@ -45,8 +45,7 @@ public final class Currencies {
 			currencies.add(right);
 		}
 		
-		//currenciesGraph = new Graph<String>();
-		
+
 		for(String currency: currencies) {
 			currenciesGraph.addNode(currency);
 		}
@@ -59,7 +58,6 @@ public final class Currencies {
 			currenciesGraph.addEdge(from, to, rate);
 		}
 		
-		//System.out.println("built currencies: "+currencies);
 		return currenciesGraph;
 	}
 	
@@ -104,12 +102,12 @@ public final class Currencies {
 	     * @throws NoSuchElementException   if either source of destination does not exists. 
 	     */
 	    public void addEdge (T source, T destination, double rate) {
-	        if (source == null || destination == null) {
+	        if (source == null || destination == null)
 	            throw new NullPointerException("Source and Destination, both should be non-null.");
-	        }
-	        if (!graph.containsKey(source) || !graph.containsKey(destination)) {
+	       
+	        if (!graph.containsKey(source) || !graph.containsKey(destination))
 	            throw new NoSuchElementException("Source and Destination, both should be part of graph");
-	        }
+	        
 	        
 	        graph.get(source).put(destination, rate);
 	    }
@@ -123,13 +121,13 @@ public final class Currencies {
 	     * @throws NoSuchElementException when node is not in the graph.
 	     */
 	    public Map<T, Double> edgesFrom(T node) {
-	        if (node == null) {
+	        if (node == null)
 	            throw new NullPointerException("The node should not be null.");
-	        }
+	        
 	        Map<T, Double> edges = graph.get(node);
-	        if (edges == null) {
+	        if (edges == null) 
 	            throw new NoSuchElementException("Source node does not exist.");
-	        }
+	       
 	        return Collections.unmodifiableMap(edges);
 	    }
 
@@ -183,29 +181,30 @@ public final class Currencies {
 	            validate(source, destination);
 
 	            List<List<T>> paths = new ArrayList<List<T>>();
-	            recursive(source, destination, paths, new LinkedHashSet<T>());
+	            recurse(source, destination, new LinkedHashSet<T>(), paths);
 	            return paths;
 	        }
 
 	       
-	        private void recursive (T current, T destination, List<List<T>> paths, LinkedHashSet<T> path) {
-	            path.add(current);
+	        private void recurse (T current, T destination, LinkedHashSet<T> accum, List<List<T>> result) {
+	            accum.add(current);
 
+	            //end case
 	            if (current.equals(destination)) {
-	                paths.add(new ArrayList<T>(path));
-	                path.remove(current);
+	                result.add(new ArrayList<T>(accum));
+	                accum.remove(current);
 	                return;
 	            }
 
 	            final Set<T> edges  = graph.edgesFrom(current).keySet();
 
 	            for (T t : edges) {
-	                if (!path.contains(t)) { // ignore cycles.
-	                    recursive (t, destination, paths, path);
+	                if (!accum.contains(t)) { // ignore cycles.
+	                    recurse (t, destination, accum, result);
 	                }
 	            }
 
-	            path.remove(current);
+	            accum.remove(current);
 	        }    
 		
 	}
